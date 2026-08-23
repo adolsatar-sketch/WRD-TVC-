@@ -139,6 +139,14 @@ html[dir="rtl"] .btn:hover .arrow{transform:scaleX(-1) translateX(4px);}
 .pre-word{margin-top:34px; font-family:var(--font-en); letter-spacing:.4em; font-size:1rem; color:var(--ink); opacity:0; animation:fadein 1s ease forwards; animation-delay:1.3s;}
 .pre-word small{display:block; margin-top:8px; letter-spacing:.1em; font-size:.7rem; color:var(--ink-faint); font-family:var(--font-ar);}
 @keyframes fadein{to{opacity:1;}}
+.pre-logo{
+  margin-top:28px; width:88px; opacity:0;
+  transform:scale(.4); transform-origin:center;
+  animation:logobloom .9s var(--ease) forwards; animation-delay:1.75s;
+}
+.pre-logo img{width:100%; display:block; opacity:.88;}
+@keyframes logobloom{ to{ opacity:.88; transform:scale(1); } }
+@media (prefers-reduced-motion: reduce){ .pre-logo{opacity:.88; transform:none; animation:none;} }
 
 /* =================== HEADER =================== */
 .site-header{
@@ -404,6 +412,7 @@ footer .fnote{font-size:.78rem; color:var(--ink-faint); max-width:48ch; margin-i
     <div class="bud"></div>
   </div>
   <div class="pre-word">WRD<small data-ar="ورد — لغة واحدة" data-en="One rose. One language.">ورد — لغة واحدة</small></div>
+  <div class="pre-logo"><img src="assets/daqiqa-logo.png" alt="Daqiqa Studio"></div>
 </div>
 
 <!-- ============ HEADER ============ -->
@@ -1065,7 +1074,7 @@ window.addEventListener('scroll', ()=>{
 
 /* preloader */
 window.addEventListener('load', ()=>{
-  const delay = reducedMotion() ? 200 : 2000;
+  const delay = reducedMotion() ? 200 : 2900;
   setTimeout(()=>{ document.getElementById('preloader').classList.add('hide'); }, delay);
 });
 
