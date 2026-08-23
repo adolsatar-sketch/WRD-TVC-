@@ -238,14 +238,15 @@ html[dir="rtl"] .idea-line{border-inline-start:none; border-inline-end:2px solid
 @media (max-width:860px){ .sb-card{flex:1 1 auto; width:100%;} }
 .sb-card:hover{transform:translateY(-6px); border-color:var(--gnc,var(--rose));}
 .sb-frame{
-  aspect-ratio:16/9; position:relative; background:
+  aspect-ratio:16/9; position:relative; overflow:hidden; background:
     repeating-linear-gradient(135deg, rgba(255,255,255,.02) 0 2px, transparent 2px 14px), var(--black-2);
   border-bottom:1px dashed var(--line);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
-  padding:14px;
+  padding:14px; cursor:pointer;
 }
+.sb-frame img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center;}
 .sb-frame .slate{width:34px; height:34px; opacity:.5;}
-.sb-frame .fname{font-family:var(--font-en); font-size:.68rem; letter-spacing:.05em; color:var(--ink-faint); background:rgba(0,0,0,.4); padding:4px 10px; border-radius:6px;}
+.sb-frame .fname{position:relative; z-index:1; font-family:var(--font-en); font-size:.68rem; letter-spacing:.05em; color:var(--ink-faint); background:rgba(0,0,0,.4); padding:4px 10px; border-radius:6px;}
 .sb-frame .ph-label{font-size:.68rem; color:var(--ink-faint); font-family:var(--font-en); letter-spacing:.1em; text-transform:uppercase;}
 .sb-body{padding:18px 20px 22px;}
 .sb-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
@@ -271,7 +272,8 @@ html[dir="rtl"] .sb-card:hover .sb-open .arrow{transform:scaleX(-1) translateX(4
 #sbModal.open .modal-card{transform:translateY(0) scale(1);}
 .modal-close{position:absolute; inset-inline-end:16px; top:16px; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.06); border:1px solid var(--line); color:var(--ink); font-size:1.1rem; z-index:2; display:flex; align-items:center; justify-content:center;}
 .modal-close:hover{background:var(--red); border-color:var(--red);}
-.modal-frame{aspect-ratio:16/9; background:var(--black-2); border-bottom:1px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border-radius:22px 22px 0 0;}
+.modal-frame{aspect-ratio:16/9; position:relative; overflow:hidden; background:var(--black-2); border-bottom:1px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border-radius:22px 22px 0 0;}
+.modal-frame img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; border-radius:22px 22px 0 0;}
 .modal-body{padding:28px clamp(20px,4vw,40px) 36px;}
 .modal-top{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:6px;}
 .modal-gov{font-size:1.5rem; color:var(--ink);}
@@ -353,12 +355,38 @@ html[dir="rtl"] .sb-card:hover .sb-open .arrow{transform:scaleX(-1) translateX(4
 .budget-note{max-width:52ch; margin:26px auto 0;}
 
 /* =================== FINAL =================== */
-#final{text-align:center; padding-bottom:0;}
-.final-rose{width:150px; height:150px; margin:0 auto 30px;}
-.final-line{font-size:clamp(1.4rem,3.2vw,2.1rem); color:var(--ink); max-width:22ch; margin-inline:auto; font-weight:400;}
+#final{
+  text-align:center; padding-bottom:0; position:relative; overflow:hidden;
+  padding-block:clamp(100px,16vh,180px);
+  min-height:70vh; display:flex; align-items:center;
+}
+#final .final-bg{
+  position:absolute; inset:0; z-index:0;
+  background-image:url('assets/storyboard/13.jpg');
+  background-size:cover; background-position:left center; background-repeat:no-repeat;
+}
+#final .final-scrim{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(to left, rgba(8,7,6,.2) 0%, rgba(8,7,6,.55) 45%, var(--black) 78%);
+}
+#final .wrap{position:relative; z-index:2; width:100%;}
+.final-content{
+  margin-right:0; margin-left:auto;
+  max-width:420px; width:100%; text-align:right;
+}
+.final-rose{width:150px; height:150px; margin:0 0 30px auto;}
+.final-line{font-size:clamp(1.4rem,3.2vw,2.1rem); color:var(--ink); max-width:22ch; margin:0 0 0 auto; font-weight:400; text-align:right;}
 .final-word{margin-top:26px; font-family:var(--font-en); letter-spacing:.4em; font-size:1.3rem; color:var(--rose); font-weight:700;}
 .final-tagline{margin-top:10px; color:var(--ink-faint); font-size:.95rem;}
 .final-bloom-note{margin-top:60px; font-size:2.4rem; color:var(--ink); font-weight:300;}
+@media (max-width:760px){
+  #final{min-height:auto;}
+  #final .final-bg{background-position:35% center;}
+  #final .final-scrim{background:linear-gradient(180deg, rgba(8,7,6,.35) 0%, rgba(8,7,6,.75) 40%, var(--black) 85%);}
+  .final-content{margin-inline:auto; max-width:100%; text-align:center;}
+  .final-rose{margin-inline:auto;}
+  .final-line{text-align:center; margin-inline:auto;}
+}
 
 /* =================== FOOTER =================== */
 footer{border-top:1px solid var(--line); padding:50px 0 40px; text-align:center;}
@@ -579,13 +607,17 @@ footer .fnote{font-size:.78rem; color:var(--ink-faint); max-width:48ch; margin-i
 
 <!-- ============ FINAL ============ -->
 <section id="final" class="overflow-guard">
+  <div class="final-bg" role="img" aria-label="WRD — العراق يزهر"></div>
+  <div class="final-scrim"></div>
   <div class="wrap">
-    <div class="final-rose reveal" id="finalRose"></div>
-    <p class="final-line reveal" data-ar="مهما اختلفت حكاياتنا… الورد لغة واحدة." data-en="However different our stories… a rose speaks one language.">مهما اختلفت حكاياتنا… الورد لغة واحدة.</p>
-    <p class="final-line reveal" style="margin-top:18px;" data-ar="WRD يوصل اللي ما تكدر الكلمات تقوله." data-en="WRD delivers what words can't.">WRD يوصل اللي ما تكدر الكلمات تقوله.</p>
-    <div class="final-word reveal">WRD</div>
-    <div class="final-bloom-note reveal" data-ar="العراق يزهر" data-en="Iraq Blooms">العراق يزهر</div>
-    <p class="final-tagline reveal" style="margin-top:40px;" data-ar="[ مكان شعار WRD الرسمي — يُضاف لاحقًا ]" data-en="[ Official WRD logo placeholder — to be added ]">[ مكان شعار WRD الرسمي — يُضاف لاحقًا ]</p>
+    <div class="final-content">
+      <div class="final-rose reveal" id="finalRose"></div>
+      <p class="final-line reveal" data-ar="مهما اختلفت حكاياتنا… الورد لغة واحدة." data-en="However different our stories… a rose speaks one language.">مهما اختلفت حكاياتنا… الورد لغة واحدة.</p>
+      <p class="final-line reveal" style="margin-top:18px;" data-ar="WRD يوصل اللي ما تكدر الكلمات تقوله." data-en="WRD delivers what words can't.">WRD يوصل اللي ما تكدر الكلمات تقوله.</p>
+      <div class="final-word reveal">WRD</div>
+      <div class="final-bloom-note reveal" data-ar="العراق يزهر" data-en="Iraq Blooms">العراق يزهر</div>
+      <p class="final-tagline reveal" style="margin-top:40px;" data-ar="[ مكان شعار WRD الرسمي — يُضاف لاحقًا ]" data-en="[ Official WRD logo placeholder — to be added ]">[ مكان شعار WRD الرسمي — يُضاف لاحقًا ]</p>
+    </div>
   </div>
 </section>
 
@@ -636,7 +668,7 @@ const projectData = {
   ],
 
   storyboard: [
-    { n:1, file:'01-iraq-noise.jpg', time:'00:00–00:04', gov:{ar:'مونتاج افتتاحي', en:'Opening Montage'}, feeling:{ar:'ضجيج العراق', en:'The Noise of Iraq'}, color:'#8f1a16',
+    { n:1, file:'01-iraq-noise.jpg', img:'assets/storyboard/01.jpg', time:'00:00–00:04', gov:{ar:'مونتاج افتتاحي', en:'Opening Montage'}, feeling:{ar:'ضجيج العراق', en:'The Noise of Iraq'}, color:'#8f1a16',
       description:{ar:'مونتاج سريع لتفاصيل من العراق: شارع مزدحم في بغداد، قارب في جنوب العراق، سوق قديم، يد تفتح بابًا، قماش كردي يتحرك، إشعار هاتف وشخص ينتظر.', en:'A fast-cut montage of everyday Iraq — a crowded Baghdad street, a boat drifting through the southern marshes, an old market, a hand opening a door, Kurdish fabric catching the wind, a phone buzzing while someone waits.'},
       camera:{ar:'لقطات قريبة جدًا، حركة سريعة ومونتاج متصاعد.', en:'Extreme close-ups, rapid cuts, rising montage energy.'},
       lighting:{ar:'تباين قوي بين مصادر الضوء والألوان المختلفة.', en:'Hard contrast between clashing light sources and colors.'},
@@ -644,7 +676,7 @@ const projectData = {
       sound:{ar:'أصوات مدن وأسواق وسيارات وإشعارات تتداخل وتتصاعد.', en:'The sounds of cities, markets, traffic and notifications collide and build.'},
       transition:{ar:'يتوقف الصوت فجأة ونقطع إلى لقطة الوردة.', en:'The noise cuts to silence — into the flower.'} },
 
-    { n:2, file:'02-the-flower.jpg', time:'00:04–00:07', gov:{ar:'الصمت والوردة', en:'Silence & the Flower'}, feeling:{ar:'الصمت', en:'Silence'}, color:'#c8a24a',
+    { n:2, file:'02-the-flower.jpg', img:'assets/storyboard/02.jpg', time:'00:04–00:07', gov:{ar:'الصمت والوردة', en:'Silence & the Flower'}, feeling:{ar:'الصمت', en:'Silence'}, color:'#c8a24a',
       description:{ar:'وردة واحدة داخل إطار سينمائي بسيط. تتحرك أوراقها بهدوء مع الهواء، بينما الخلفية خارج التركيز.', en:"A single rose in a simple cinematic frame, its petals stirring gently in the air while the background dissolves out of focus."},
       camera:{ar:'Extreme Close-up مع حركة Push-in بطيئة.', en:'Extreme close-up with a slow push-in.'},
       lighting:{ar:'ضوء جانبي ناعم وخلفية داكنة.', en:'Soft side light against a dark background.'},
@@ -652,7 +684,7 @@ const projectData = {
       sound:{ar:'صمت، ثم صوت تنفس خفيف وبداية النغمة الموسيقية.', en:'Silence, then a quiet breath, then the first note of the score.'},
       transition:{ar:'لون الوردة يتحول إلى لون في مشهد بغداد.', en:"The rose's color bleeds into the first frame of Baghdad."} },
 
-    { n:3, file:'03-baghdad-apology.jpg', time:'00:07–00:14', gov:{ar:'بغداد', en:'Baghdad'}, feeling:{ar:'آسف', en:'Sorry'}, color:'#cdbfa8',
+    { n:3, file:'03-baghdad-apology.jpg', img:'assets/storyboard/03.jpg', time:'00:07–00:14', gov:{ar:'بغداد', en:'Baghdad'}, feeling:{ar:'آسف', en:'Sorry'}, color:'#cdbfa8',
       description:{ar:'شاب يقف أمام باب بيت بغدادي قديم، يحمل وردة أو باقة بسيطة. تفتح فتاة الباب، يتبادلان نظرة صامتة تحمل الاعتذار والتردد.', en:"A young man stands at the door of an old Baghdadi house, holding a simple bouquet. A young woman opens the door; a silent look passes between them, carrying both apology and hesitation."},
       wardrobe:{ar:'ملابس بغدادية معاصرة وأنيقة، بألوان حيادية، تعكس حياة المدينة من دون مبالغة أو تنميط.', en:'Contemporary, elegant Baghdadi dress in neutral tones — everyday city life, no exaggeration.'},
       location:{ar:'زقاق بغدادي أو منزل بتفاصيل معمارية عراقية واضحة.', en:'A Baghdadi alley or home with clear Iraqi architectural detail.'},
@@ -662,7 +694,7 @@ const projectData = {
       sound:{ar:'صوت الشارع البعيد، فتح الباب، احتكاك ورق التغليف.', en:'Distant street noise, the door opening, the rustle of wrapping paper.'},
       transition:{ar:'حركة تقديم الوردة تكملها يد في مشهد البصرة.', en:'The gesture of the rose completes itself in a hand in Basra.'} },
 
-    { n:4, file:'04-basra-pride.jpg', time:'00:14–00:21', gov:{ar:'البصرة', en:'Basra'}, feeling:{ar:'فخور بيك', en:'Pride'}, color:'#c8a24a',
+    { n:4, file:'04-basra-pride.jpg', img:'assets/storyboard/04.jpg', time:'00:14–00:21', gov:{ar:'البصرة', en:'Basra'}, feeling:{ar:'فخور بيك', en:'Pride'}, color:'#c8a24a',
       description:{ar:'أب جنوبي يقدم باقة لابنته أو ابنه بعد نجاح أو إنجاز. تظهر نظرة الفخر قبل الابتسامة.', en:'A southern father presents a bouquet to his daughter or son after an achievement. Pride flickers across his face before the smile arrives.'},
       wardrobe:{ar:'الرجل يرتدي الدشداشة البيضاء والشماغ والعقال بصورة طبيعية وأصيلة. يمكن أن تظهر الأم بالعباءة العراقية الجنوبية.', en:'The father in an authentic white dishdasha, shemagh and agal; the mother may appear in a southern Iraqi abaya.'},
       location:{ar:'بيت بصري أو مساحة قريبة من شط العرب والنخيل، من دون أن يصبح المشهد سياحيًا.', en:'A Basra home or a space near the Shatt al-Arab and its palms — grounded, never touristic.'},
@@ -672,7 +704,7 @@ const projectData = {
       sound:{ar:'هواء خفيف، حركة نخيل، صوت ماء بعيد.', en:'A light breeze, palm fronds moving, distant water.'},
       transition:{ar:'دوران الباقة يتحول إلى حركة دائرية داخل مشهد الموصل.', en:"The bouquet's turn becomes a circling motion carried into Mosul."} },
 
-    { n:5, file:'05-mosul-new-beginning.jpg', time:'00:21–00:28', gov:{ar:'الموصل', en:'Mosul'}, feeling:{ar:'بداية جديدة', en:'New Beginning'}, color:'#8a7a52',
+    { n:5, file:'05-mosul-new-beginning.jpg', img:'assets/storyboard/05.jpg', time:'00:21–00:28', gov:{ar:'الموصل', en:'Mosul'}, feeling:{ar:'بداية جديدة', en:'New Beginning'}, color:'#8a7a52',
       description:{ar:'عائلة شابة تدخل بيتًا جديدًا أو تفتح محلًا صغيرًا. تصل باقة ورد وتوضع في منتصف المكان الفارغ، فتمنحه أول إحساس بالحياة.', en:"A young family steps into a new home, or opens a small shop. A bouquet arrives and is set down in the empty middle of the room — the first sign of life returning."},
       wardrobe:{ar:'ملابس مستوحاة من الهوية الموصلية بصورة واقعية وهادئة، مع تفاصيل محلية مدروسة وغير مسرحية.', en:"Dress inspired by Mosul's identity, understated and real, with careful local detail — never staged."},
       location:{ar:'عمارة موصلية، أقواس حجرية أو تفاصيل من المدينة القديمة بعد استعادة الحياة.', en:"Mosuli architecture — stone arches or Old City details, life visibly returning."},
@@ -682,7 +714,7 @@ const projectData = {
       sound:{ar:'فتح الأقفال والباب، خطوات، ثم دخول الموسيقى بصورة أكثر تفاؤلًا.', en:'Locks and a door opening, footsteps, then the score turning more hopeful.'},
       transition:{ar:'قوس الباب يتحول إلى قوس معماري أو جبل في أربيل.', en:"The doorway's arch becomes an architectural arch — or a mountain — in Erbil."} },
 
-    { n:6, file:'06-erbil-gratitude.jpg', time:'00:28–00:35', gov:{ar:'أربيل', en:'Erbil'}, feeling:{ar:'شكرًا', en:'Gratitude'}, color:'#b23a2f',
+    { n:6, file:'06-erbil-gratitude.jpg', img:'assets/storyboard/06.jpg', time:'00:28–00:35', gov:{ar:'أربيل', en:'Erbil'}, feeling:{ar:'شكرًا', en:'Gratitude'}, color:'#b23a2f',
       description:{ar:'فتاة تقدم الورد لوالدتها أو لمعلمتها. العناق بسيط وصادق وغير مبالغ به.', en:'A daughter offers flowers to her mother, or a student to her teacher. The embrace is simple, sincere, unforced.'},
       wardrobe:{ar:'زي كردي أصيل، غني بالتفاصيل والتطريز، مصمم بألوان متناسقة مع هوية WRD.', en:"Authentic Kurdish dress, rich in embroidery and detail, colored to sit within WRD's palette."},
       location:{ar:'بيت كردي معاصر أو موقع تظهر منه قلعة أربيل بصورة غير مباشرة.', en:'A contemporary Kurdish home, with Erbil Citadel present only indirectly.'},
@@ -692,7 +724,7 @@ const projectData = {
       sound:{ar:'صوت القماش والحركة، مع نغمة موسيقية كردية خفيفة مندمجة مع الموسيقى الأصلية.', en:'Fabric and movement, a light Kurdish musical phrase woven into the score.'},
       transition:{ar:'تفاصيل تطريز الزي تتحول إلى تفاصيل وردة في السليمانية.', en:"The embroidery's detail dissolves into a rose's detail in Sulaymaniyah."} },
 
-    { n:7, file:'07-sulaymaniyah-longing.jpg', time:'00:35–00:42', gov:{ar:'السليمانية', en:'Sulaymaniyah'}, feeling:{ar:'اشتقتلك', en:'Longing'}, color:'#5c6773',
+    { n:7, file:'07-sulaymaniyah-longing.jpg', img:'assets/storyboard/07.jpg', time:'00:35–00:42', gov:{ar:'السليمانية', en:'Sulaymaniyah'}, feeling:{ar:'اشتقتلك', en:'Longing'}, color:'#5c6773',
       description:{ar:'فتاة تقف قرب نافذة في يوم ضبابي. يصلها الورد من شخص بعيد، فتقرأ البطاقة وتبتسم بهدوء.', en:'A woman stands near a window on a misty day. A rose arrives from someone far away; she reads the card and smiles quietly.'},
       wardrobe:{ar:'زي كردي سوراني بألوان شاعرية وهادئة مثل الأزرق الرمادي، الأخضر الداكن أو العنابي.', en:'Sorani Kurdish dress in soft, poetic tones — slate blue, deep green, or maroon.'},
       location:{ar:'منزل يطل على جبال أو شارع من السليمانية بأجواء شتوية.', en:'A home overlooking mountains, or a Sulaymaniyah street in winter light.'},
@@ -702,7 +734,7 @@ const projectData = {
       sound:{ar:'مطر خفيف أو هواء، مع مساحة موسيقية هادئة.', en:'Light rain or wind, a quiet musical space.'},
       transition:{ar:'تتحرك الستارة وتملأ الشاشة، ثم تنكشف عنها لقطة دهوك.', en:'A curtain sweeps across the frame and lifts to reveal Duhok.'} },
 
-    { n:8, file:'08-duhok-reunion.jpg', time:'00:42–00:49', gov:{ar:'دهوك', en:'Duhok'}, feeling:{ar:'أخيرًا التقينا', en:'Reunion'}, color:'#707a4c',
+    { n:8, file:'08-duhok-reunion.jpg', img:'assets/storyboard/08.jpg', time:'00:42–00:49', gov:{ar:'دهوك', en:'Duhok'}, feeling:{ar:'أخيرًا التقينا', en:'Reunion'}, color:'#707a4c',
       description:{ar:'شخص يصل بعد غياب. ينتظره شخص آخر ويحمل باقة. لحظة اللقاء تبدأ بنظرة ثم عناق.', en:'Someone arrives after time away. Another waits, holding a bouquet. The reunion begins with a look, then an embrace.'},
       wardrobe:{ar:'زي كردي دهوكي أصيل بتفاصيل القماش والحزام وغطاء الرأس، مع الحفاظ على واقعية المشهد.', en:'Authentic Duhoki Kurdish dress — fabric, belt and headwear detail, kept fully real.'},
       location:{ar:'طريق جبلي، محطة وصول أو موقع مفتوح تحيط به طبيعة دهوك.', en:"A mountain road, an arrival point, or an open space set against Duhok's landscape."},
@@ -712,7 +744,7 @@ const projectData = {
       sound:{ar:'خطوات، هواء الجبل، ارتفاع عاطفي تدريجي للموسيقى.', en:'Footsteps, mountain air, the score rising emotionally.'},
       transition:{ar:'العناق يتحول إلى يدين كبيرتين بالعمر متشابكتين في النجف.', en:'The embrace becomes two aged, intertwined hands in Najaf.'} },
 
-    { n:9, file:'09-najaf-lasting-love.jpg', time:'00:49–00:56', gov:{ar:'النجف', en:'Najaf'}, feeling:{ar:'حب مستمر', en:'Lasting Love'}, color:'#9c6b2e',
+    { n:9, file:'09-najaf-lasting-love.jpg', img:'assets/storyboard/09.jpg', time:'00:49–00:56', gov:{ar:'النجف', en:'Najaf'}, feeling:{ar:'حب مستمر', en:'Lasting Love'}, color:'#9c6b2e',
       description:{ar:'رجل كبير بالعمر يقدم وردة إلى زوجته. تنظر له وتضحك كأنها تعيش اللحظة للمرة الأولى.', en:'An elderly man offers a rose to his wife. She looks at him and laughs, as if living the moment for the first time.'},
       wardrobe:{ar:'الرجل يرتدي الدشداشة والصاية والعقال. المرأة ترتدي عباءة عراقية تقليدية أنيقة.', en:'The husband in dishdasha, saya and agal; the wife in an elegant traditional Iraqi abaya.'},
       location:{ar:'باحة منزل نجفي قديم أو سطح بيت وقت الغروب.', en:'The courtyard of an old Najafi home, or a rooftop at sunset.'},
@@ -722,7 +754,7 @@ const projectData = {
       sound:{ar:'صوت ساعة أو راديو قديم بصورة خافتة، مع الموسيقى.', en:'A faint old clock or radio, beneath the score.'},
       transition:{ar:'الوردة تُوضع قرب النافذة، ثم نراها من الجهة الأخرى في مشهد كركوك.', en:"The rose is set by a window — seen again from its other side, in Kirkuk."} },
 
-    { n:10, file:'10-kirkuk-unspoken-love.jpg', time:'00:56–01:03', gov:{ar:'كركوك', en:'Kirkuk'}, feeling:{ar:'شعور لم يُقَل', en:'Unspoken Love'}, color:'#6b4a52',
+    { n:10, file:'10-kirkuk-unspoken-love.jpg', img:'assets/storyboard/10.jpg', time:'00:56–01:03', gov:{ar:'كركوك', en:'Kirkuk'}, feeling:{ar:'شعور لم يُقَل', en:'Unspoken Love'}, color:'#6b4a52',
       description:{ar:'شخص يترك وردة أو باقة أمام باب من يحب، ثم يبتعد قبل أن يُفتح الباب. يستلمها الطرف الآخر وينظر إلى الطريق، لكن الشخص يكون قد رحل.', en:"Someone leaves a rose at the door of the person they love, then steps away before the door opens. The other receives it and looks down the street — but they're already gone."},
       wardrobe:{ar:'ملابس تعكس التنوع الثقافي في كركوك، ويمكن الاستفادة من تفاصيل الزي التركماني بعد مراجعتها مع مستشار محلي متخصص.', en:"Dress reflecting Kirkuk's cultural diversity; Turkmen dress details may be used after review with a local cultural consultant."},
       location:{ar:'حي قديم في كركوك بتفاصيل معمارية محلية.', en:'An old Kirkuk neighborhood with local architectural detail.'},
@@ -732,21 +764,21 @@ const projectData = {
       sound:{ar:'صوت وضع الباقة، خطوات تبتعد، ثم فتح الباب.', en:'The bouquet being set down, footsteps retreating, then the door opening.'},
       transition:{ar:'البطاقة المرفقة بالورد تتحول إلى واجهة تطبيق WRD.', en:'The card attached to the rose becomes the WRD app interface.'} },
 
-    { n:11, file:'11-wrd-app.jpg', time:'01:03–01:09', gov:{ar:'تطبيق WRD', en:'The WRD App'}, feeling:{ar:'السهولة', en:'Ease'}, color:'#b23a2f',
+    { n:11, file:'11-wrd-app.jpg', img:'assets/storyboard/11.jpg', time:'01:03–01:09', gov:{ar:'تطبيق WRD', en:'The WRD App'}, feeling:{ar:'السهولة', en:'Ease'}, color:'#b23a2f',
       description:{ar:'لقطات قريبة وسريعة لاستخدام التطبيق: اختيار المناسبة، اختيار الباقة، كتابة الرسالة، تحديد الموقع وتأكيد الطلب. واجهة التطبيق تظهر بصورة فخمة وواضحة من دون أن تتحول إلى شرح تقني طويل.', en:"Quick, close shots of the app in use — choosing the occasion, the bouquet, writing the message, setting the location, confirming the order. The interface reads as premium and clear, never a technical walkthrough."},
       camera:{ar:'Macro Shots للهاتف مع حركة سلسة ولقطات UI Motion.', en:'Macro shots of the phone with smooth motion and UI-motion cuts.'},
       vo:{ar:'«من جنوب العراق لشماله…»', en:'“From the south of Iraq to its north…”'},
       sound:{ar:'مؤثرات واجهة ناعمة مندمجة مع الموسيقى.', en:'Soft interface sounds woven into the score.'},
       transition:{ar:'خريطة الطلب تتحول إلى لقطات توصيل في مدن مختلفة.', en:'The order map dissolves into delivery shots across different cities.'} },
 
-    { n:12, file:'12-across-iraq.jpg', time:'01:09–01:15', gov:{ar:'الورد يعبر العراق', en:'Across Iraq'}, feeling:{ar:'الحركة', en:'Motion'}, color:'#c8a24a',
+    { n:12, file:'12-across-iraq.jpg', img:'assets/storyboard/12.jpg', time:'01:09–01:15', gov:{ar:'الورد يعبر العراق', en:'Across Iraq'}, feeling:{ar:'الحركة', en:'Motion'}, color:'#c8a24a',
       description:{ar:'مونتاج سريع لسائقي التوصيل، باقات تتحرك بين الأيدي، طرق ومدن وجبال ونخيل. استخدام Drone وFPV لربط الجغرافيا العراقية بصريًا.', en:"A fast montage of delivery riders, bouquets passing between hands, roads, cities, mountains and palms. Drone and FPV footage stitches Iraq's geography together."},
       camera:{ar:'Drone وFPV وTracking Shots، مع Match Cuts بين المدن.', en:'Drone, FPV and tracking shots, with match cuts between cities.'},
       vo:{ar:'«وردة وحدة… توصل ألف معنى.»', en:'“One rose… carries a thousand meanings.”'},
       sound:{ar:'الموسيقى تصل إلى ذروتها العاطفية.', en:"The score reaches its emotional peak."},
       transition:{ar:'تلتقي حركة جميع الباقات داخل لقطة ختامية واحدة.', en:"Every bouquet's motion converges into one final shot."} },
 
-    { n:13, file:'13-iraq-blooms.jpg', time:'01:15–01:20', gov:{ar:'النهاية', en:'The Ending'}, feeling:{ar:'العراق يزهر', en:'Iraq Blooms'}, color:'#8f1a16',
+    { n:13, file:'13-iraq-blooms.jpg', img:'assets/storyboard/13.jpg', time:'01:15–01:20', gov:{ar:'النهاية', en:'The Ending'}, feeling:{ar:'العراق يزهر', en:'Iraq Blooms'}, color:'#8f1a16',
       description:{ar:'مونتاج سريع لوجوه الشخصيات بعد استلام الورد، ثم لقطة نهائية لباقة واحدة تضم ألوانًا مستوحاة من جميع الحكايات. يظهر شعار WRD وواجهة التطبيق.', en:"A quick montage of every character's face after receiving their rose, closing on one final bouquet holding colors from every story. The WRD mark and app interface appear."},
       camera:null,
       vo:{ar:'«WRD… يوصل اللي ما تكدر الكلمات تقوله.» ثم: «العراق يزهر.»', en:'“WRD — delivering what words can\'t.” then: “Iraq blooms.”'},
@@ -916,10 +948,11 @@ function renderStoryboard(){
   const track = document.getElementById('sbTrack');
   track.innerHTML = projectData.storyboard.map((s,i)=>`
     <article class="sb-card" data-idx="${i}" style="--gnc:${s.color}" tabindex="0">
-      <div class="sb-frame">
+      <div class="sb-frame">${s.img ? `
+        <img src="${s.img}" alt="${t(s.gov)} — ${t(s.feeling)}">` : `
         <svg class="slate" viewBox="0 0 24 24" fill="none" stroke="${s.color}" stroke-width="1.4"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M3 7l3-4h4l-2 4M11 7l3-4h4l-2 4"/></svg>
         <span class="fname">${s.file}</span>
-        <span class="ph-label">Storyboard Placeholder</span>
+        <span class="ph-label">Storyboard Placeholder</span>`}
       </div>
       <div class="sb-body">
         <div class="sb-top"><span class="sb-num">${String(s.n).padStart(2,'0')}</span><span class="sb-time">${s.time}</span></div>
@@ -994,7 +1027,8 @@ let modalIdx = 0;
 function openModal(idx){
   modalIdx = idx;
   const s = projectData.storyboard[idx];
-  document.getElementById('modalFrame').innerHTML = `
+  document.getElementById('modalFrame').innerHTML = s.img ? `
+    <img src="${s.img}" alt="${t(s.gov)} — ${t(s.feeling)}">` : `
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="${s.color}" stroke-width="1.2"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M3 7l3-4h4l-2 4M11 7l3-4h4l-2 4"/></svg>
     <span class="fname">${s.file}</span>
     <span class="ph-label">Storyboard Placeholder</span>`;
