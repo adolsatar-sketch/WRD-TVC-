@@ -139,6 +139,14 @@ html[dir="rtl"] .btn:hover .arrow{transform:scaleX(-1) translateX(4px);}
 .pre-word{margin-top:34px; font-family:var(--font-en); letter-spacing:.4em; font-size:1rem; color:var(--ink); opacity:0; animation:fadein 1s ease forwards; animation-delay:1.3s;}
 .pre-word small{display:block; margin-top:8px; letter-spacing:.1em; font-size:.7rem; color:var(--ink-faint); font-family:var(--font-ar);}
 @keyframes fadein{to{opacity:1;}}
+.pre-logo{
+  margin-top:28px; width:88px; opacity:0;
+  transform:scale(.4); transform-origin:center;
+  animation:logobloom .9s var(--ease) forwards; animation-delay:1.75s;
+}
+.pre-logo img{width:100%; display:block; opacity:.88;}
+@keyframes logobloom{ to{ opacity:.88; transform:scale(1); } }
+@media (prefers-reduced-motion: reduce){ .pre-logo{opacity:.88; transform:none; animation:none;} }
 
 /* =================== HEADER =================== */
 .site-header{
@@ -299,17 +307,6 @@ html[dir="rtl"] .sb-card:hover .sb-open .arrow{transform:scaleX(-1) translateX(4
 .w-principles li{list-style:none; font-size:.88rem; color:var(--ink-dim); padding-inline-start:20px; position:relative;}
 .w-principles li::before{content:""; position:absolute; inset-inline-start:0; top:9px; width:6px; height:6px; border-radius:50%; background:var(--rose);}
 
-/* =================== VISUAL TREATMENT =================== */
-.color-row{display:flex; flex-wrap:wrap; gap:16px; margin-bottom:50px;}
-.chip{flex:1 1 140px; border-radius:16px; padding:20px 18px; min-height:110px; display:flex; flex-direction:column; justify-content:flex-end; border:1px solid var(--line);}
-.chip .cname{font-size:.9rem; color:#fff; text-shadow:0 1px 6px rgba(0,0,0,.4);}
-.chip .chex{font-family:var(--font-en); font-size:.7rem; opacity:.8; color:#fff; margin-top:4px;}
-.treat-cols{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:34px;}
-.treat-cols h4{font-size:.95rem; letter-spacing:.05em; color:var(--rose); margin-bottom:14px; font-family:var(--font-en); text-transform:uppercase;}
-.treat-cols ul{list-style:none;}
-.treat-cols li{font-size:.92rem; color:var(--ink-dim); padding:8px 0; border-top:1px solid var(--line);}
-.treat-cols li:first-child{border-top:none;}
-
 /* =================== SOUND =================== */
 .sound-box{background:var(--panel); border:1px solid var(--line); border-radius:22px; padding:clamp(24px,5vw,48px); text-align:center;}
 .wave{display:flex; align-items:flex-end; justify-content:center; gap:4px; height:70px; margin:30px 0;}
@@ -415,6 +412,7 @@ footer .fnote{font-size:.78rem; color:var(--ink-faint); max-width:48ch; margin-i
     <div class="bud"></div>
   </div>
   <div class="pre-word">WRD<small data-ar="ورد — لغة واحدة" data-en="One rose. One language.">ورد — لغة واحدة</small></div>
+  <div class="pre-logo"><img src="assets/daqiqa-logo.png" alt="Daqiqa Studio"></div>
 </div>
 
 <!-- ============ HEADER ============ -->
@@ -499,29 +497,6 @@ footer .fnote{font-size:.78rem; color:var(--ink-faint); max-width:48ch; margin-i
     </div>
     <div class="wardrobe-grid" id="wardrobeGrid"></div>
     <ul class="w-principles reveal" id="wPrinciples"></ul>
-  </div>
-</section>
-
-<!-- ============ VISUAL TREATMENT ============ -->
-<section id="visual" class="overflow-guard">
-  <div class="glow glow-tr"></div>
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow"><span class="bud"></span><span data-ar="المعالجة البصرية" data-en="Visual Treatment">المعالجة البصرية</span></div>
-      <h2 class="headline" data-ar="Cinematic Iraqi Realism" data-en="Cinematic Iraqi Realism">Cinematic Iraqi Realism</h2>
-      <p data-ar="مشاهد فخمة وعاطفية، لكنها صادقة وإنسانية وغير مصطنعة. المدن تخدم الحكايات الإنسانية، وليست مجرد مناظر." data-en="Rich and emotional frames that stay honest, human, never staged. The cities serve the human stories — they're never postcards.">مشاهد فخمة وعاطفية، لكنها صادقة وإنسانية وغير مصطنعة. المدن تخدم الحكايات الإنسانية، وليست مجرد مناظر.</p>
-    </div>
-    <div class="color-row reveal" id="colorRow"></div>
-    <div class="treat-cols reveal">
-      <div>
-        <h4 data-ar="التصوير" data-en="Cinematography">التصوير</h4>
-        <ul id="camList"></ul>
-      </div>
-      <div>
-        <h4 data-ar="الإضاءة" data-en="Lighting">الإضاءة</h4>
-        <ul id="lightList"></ul>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -807,32 +782,6 @@ const projectData = {
     {ar:'تتم مراجعتها مع Wardrobe Stylist ومستشارين محليين.', en:'Reviewed with a wardrobe stylist and local consultants.'},
   ],
 
-  colors: [
-    {ar:'العنابي الداكن', en:'Dark Maroon', hex:'#3d130f'},
-    {ar:'الأحمر الوردي', en:'Rose Red', hex:'#b23a2f'},
-    {ar:'العاجي', en:'Ivory', hex:'#cdbfa8'},
-    {ar:'الأسود الفحمي', en:'Charcoal Black', hex:'#17140f'},
-    {ar:'الأخضر الزيتي', en:'Olive Green', hex:'#707a4c'},
-    {ar:'الذهبي الدافئ', en:'Warm Gold', hex:'#c8a24a'},
-  ],
-
-  camera: [
-    {ar:'كاميرات سينمائية احترافية.', en:'Professional cinema cameras.'},
-    {ar:'عدسات Anamorphic أو عدسات ذات Character ناعم.', en:'Anamorphic lenses, or glass with soft character.'},
-    {ar:'Close-ups للتفاصيل والمشاعر.', en:'Close-ups for detail and emotion.'},
-    {ar:'Wide Shots لعرض هوية المحافظات.', en:'Wide shots to reveal each governorate\'s identity.'},
-    {ar:'Drone وFPV للانتقال بين المدن.', en:'Drone and FPV to move between cities.'},
-    {ar:'حركات Dolly وSteadicam وOrbit مدروسة.', en:'Deliberate dolly, Steadicam and orbit moves.'},
-    {ar:'Shallow Depth of Field في اللحظات العاطفية.', en:'Shallow depth of field in emotional beats.'},
-  ],
-  lighting: [
-    {ar:'Natural Lighting مع تشكيل سينمائي دقيق.', en:'Natural light, shaped with cinematic precision.'},
-    {ar:'ضوء ذهبي دافئ في لحظات الفخر والذكريات.', en:'Warm golden light for pride and memory.'},
-    {ar:'ضوء بارد وشاعري في لحظات الاشتياق.', en:'Cool, poetic light for longing.'},
-    {ar:'تباين قوي في المشاهد الافتتاحية.', en:'High contrast in the opening scenes.'},
-    {ar:'ظلال ناعمة في اللحظات الإنسانية القريبة.', en:'Soft shadow in close human moments.'},
-  ],
-
   soundTags: [
     {ar:'أصوات المدن', en:'City sounds'},
     {ar:'الأسواق والشوارع', en:'Markets & streets'},
@@ -975,13 +924,6 @@ function renderWardrobe(){
   document.getElementById('wPrinciples').innerHTML = projectData.wPrinciples.map(p=>`<li>${t(p)}</li>`).join('');
 }
 
-function renderVisual(){
-  document.getElementById('colorRow').innerHTML = projectData.colors.map(c=>`
-    <div class="chip" style="background:${c.hex}"><span class="cname">${t(c)}</span><span class="chex">${c.hex.toUpperCase()}</span></div>`).join('');
-  document.getElementById('camList').innerHTML = projectData.camera.map(c=>`<li>${t(c)}</li>`).join('');
-  document.getElementById('lightList').innerHTML = projectData.lighting.map(c=>`<li>${t(c)}</li>`).join('');
-}
-
 function renderSound(){
   const wave = document.getElementById('waveNoise');
   wave.innerHTML = Array.from({length:28}).map((_,i)=>`<span style="animation-delay:${(i*0.05).toFixed(2)}s"></span>`).join('');
@@ -1064,7 +1006,7 @@ function closeModal(){ document.getElementById('sbModal').classList.remove('open
    INIT
    ============================================================ */
 function renderAll(){
-  renderMap(); renderStoryboard(); renderWardrobe(); renderVisual();
+  renderMap(); renderStoryboard(); renderWardrobe();
   renderSound(); renderApp(); renderProduction(); renderDeliverables();
   applyStaticLang(currentLang);
   bindDynamicEvents();
@@ -1108,7 +1050,7 @@ document.getElementById('mNext').addEventListener('click', ()=>{ if(modalIdx<pro
 document.getElementById('langToggle').addEventListener('click', ()=>{
   currentLang = currentLang === 'ar' ? 'en' : 'ar';
   applyStaticLang(currentLang);
-  renderMap(); renderStoryboard(); renderWardrobe(); renderVisual();
+  renderMap(); renderStoryboard(); renderWardrobe();
   renderSound(); renderApp(); renderProduction(); renderDeliverables();
   bindDynamicEvents();
   if(document.getElementById('sbModal').classList.contains('open')) openModal(modalIdx);
@@ -1132,7 +1074,7 @@ window.addEventListener('scroll', ()=>{
 
 /* preloader */
 window.addEventListener('load', ()=>{
-  const delay = reducedMotion() ? 200 : 2000;
+  const delay = reducedMotion() ? 200 : 2900;
   setTimeout(()=>{ document.getElementById('preloader').classList.add('hide'); }, delay);
 });
 
